@@ -15,7 +15,7 @@ class FileTaskSource:
                 for line in f:
                     parts = line.split()
                     if len(parts) >= 2:
-                        tasks.append(Task(id=parts[0], payload=parts[1]))
-        except FileNotFoundError as e:
+                        tasks.append(Task(id=parts[0], description=parts[1], priority=parts[2], status=parts[3]))
+        except FileTaskSourceNotFound as e:
             raise FileTaskSourceNotFound(self.filename) from e
         return tasks

@@ -22,12 +22,14 @@ class ApiTaskSource:
         if self.simulate_delay:
             time.sleep(0.5 + randint(0, 100) / 100)
         tasks = []
-        possible_payloads = ["Process data", "Generate report", "Send email", "Backup database", "Update cache"]
+        possible_descriptions = ["Process data", "Generate report", "Send email", "Backup database", "Update cache"]
 
         for i in range(self.tasks_count):
             task = Task(
                 id=f"api_{randint(1000, 9999)}",
-                payload=choice(possible_payloads)
+                description=choice(possible_descriptions),
+                priority=randint(1,5),
+                status=choice(['новая', 'в работе', 'завершена'])
             )
             tasks.append(task)
 

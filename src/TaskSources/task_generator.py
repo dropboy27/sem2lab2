@@ -17,5 +17,7 @@ class TaskGenerator:
         tasks = []
         for i in range(self.tasks_number):
             tasks.append(Task(id=randint(1, self.tasks_number*10),
-                         payload=choice(self.possible_tasks)))
+                        description=choice(self.possible_tasks), 
+                        priority=randint(1,5), 
+                        status=choice(['новая', 'в работе', 'завершена'])))
         return tasks
