@@ -1,5 +1,6 @@
 from src.classes.task_dataclass import Task
 from src.exceptions.file_task_source_exceptions import FileTaskSourceNotFound
+from src.exceptions.task_exceptions import TaskError
 
 class FileTaskSource:
     """Источник задач из текстового файла."""
@@ -14,8 +15,17 @@ class FileTaskSource:
             with open(self.filename, 'r') as f:
                 for line in f:
                     parts = line.split()
-                    if len(parts) >= 2:
-                        tasks.append(Task(id=parts[0], description=parts[1], priority=parts[2], status=parts[3]))
+                    if len(parts) >= 4:
+                        try:
+                            task = Task(
+                                id=int(parts[0]),
+                                description=parts[1],
+                                priority=int(parts[2]),
+                                status=parts[3]
+                            )
+                            tasks.append(task)
+                        except (TaskError) as e:
+                            print(f"Ошибка в строке '{line.strip()}': {e}")
         except FileTaskSourceNotFound as e:
             raise FileTaskSourceNotFound(self.filename) from e
         return tasks

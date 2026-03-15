@@ -3,6 +3,7 @@ from src.TaskSources.task_generator import TaskGenerator
 from src.TaskSources.api_task import ApiTaskSource
 from src.recieve_tasks import receive
 from src.exceptions.file_task_source_exceptions import TaskSourceError
+from src.exceptions.task_exceptions import TaskError
 
 def main() -> None:
     tasks = []
@@ -35,9 +36,25 @@ def main() -> None:
                 tasks.extend(receive(src))
 
             elif variant == 4:
-                for t in tasks:
-                    print(f"{t.id}: {t.payload}")
+                if not tasks:
+                    print("Нет задач")
+                    continue
+                print("1 - полное описание\n2 - краткое описание")
+                try:
+                    choice = int(input())
+                except ValueError:
+                    print("Ошибка: введите число")
+                    continue
 
+                if choice == 1:
+                    for t in tasks:
+                        print(t)
+                elif choice == 2:
+                    for t in tasks:
+                        print(t)
+                else:
+                    print("Неверный выбор")
+ 
             elif variant == 5:
                 break
 
@@ -46,6 +63,8 @@ def main() -> None:
 
         except TaskSourceError as e:
             print(f"Ошибка источника: {e}")
+        except TaskError as e:
+            print(f"Ошибка валидации задачи: {e}")
         except Exception as e:
             print(f"Неожиданная ошибка: {e}")
 

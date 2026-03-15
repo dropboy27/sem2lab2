@@ -1,5 +1,5 @@
 from datetime import datetime
-from src.exceptions.file_task_source_exceptions import TaskError
+from src.exceptions.task_exceptions import TaskError
 
 
 class ShortDescription:
@@ -110,4 +110,4 @@ class Task:
         return self.status != 'завершена'
 
     def __repr__(self):
-        return f"Task(id={self.id}, desc='{self.description}', prio={self.priority}, status='{self.status}')"
+        return f"Task(id={self.id}, desc='{self.description}', prio={self.priority}, status='{self.status}, created at = {self.created_at}')"
