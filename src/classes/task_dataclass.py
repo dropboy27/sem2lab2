@@ -31,6 +31,7 @@ class ReadOnlyInt:
             raise TaskError(f"{self.name} должен быть положительным")
         obj.__dict__[self.private] = value
 
+
 class ReadOnlyString:
     def __set_name__(self, owner, name):
         self.name = name
@@ -110,4 +111,4 @@ class Task:
         return self.status != 'завершена'
 
     def __repr__(self):
-        return f"Task(id={self.id}, desc='{self.description}', prio={self.priority}, status='{self.status}, created at = {self.created_at}')"
+        return f"Task(id={self.id}, desc='{self.description}', prio={self.priority}, status='{self.status}', created at={self.created_at})"

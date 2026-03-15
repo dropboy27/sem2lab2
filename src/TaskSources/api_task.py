@@ -26,7 +26,7 @@ class ApiTaskSource:
 
         for i in range(self.tasks_count):
             task = Task(
-                id=f"api_{randint(1000, 9999)}",
+                id=randint(1000, 9999),
                 description=choice(possible_descriptions),
                 priority=randint(1,5),
                 status=choice(['новая', 'в работе', 'завершена'])

@@ -3,7 +3,7 @@ from src.classes.task_dataclass import Task
 
 class GoodSource:
     def get_tasks(self) -> list[Task]:
-        return [Task("1", "test")]
+        return [Task(id=1, description="test", priority=1, status="новая")]
 
 class BadSource:
     pass

@@ -5,27 +5,33 @@ from src.exceptions.task_exceptions import TaskError
 class FileTaskSource:
     """Источник задач из текстового файла."""
     def __init__(self, filename: str):
-        """Инициализация с именем файла."""
         self.filename = filename
-
     def get_tasks(self) -> list[Task]:
-        """Читает задачи из файла и возвращает список Task."""
         tasks = []
         try:
             with open(self.filename, 'r') as f:
                 for line in f:
-                    parts = line.split()
-                    if len(parts) >= 4:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    parts = line.split(maxsplit=3)
+                    if len(parts) == 4:
                         try:
+                            id_part, desc, priority_str, status = parts
+                            try:
+                                id_val = int(id_part)
+                            except ValueError:
+                                id_val = id_part
+                            priority = int(priority_str)
                             task = Task(
-                                id=int(parts[0]),
-                                description=parts[1],
-                                priority=int(parts[2]),
-                                status=parts[3]
+                                id=id_val,
+                                description=desc,
+                                priority=priority,
+                                status=status
                             )
                             tasks.append(task)
-                        except (TaskError) as e:
-                            print(f"Ошибка в строке '{line.strip()}': {e}")
-        except FileTaskSourceNotFound as e:
+                        except (ValueError, TaskError) as e:
+                            print(f"Ошибка в строке '{line}': {e}")
+        except FileNotFoundError as e:
             raise FileTaskSourceNotFound(self.filename) from e
         return tasks
