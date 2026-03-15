@@ -1,6 +1,16 @@
 from datetime import datetime
-class TaskError(Exception):
-    pass
+from src.exceptions.file_task_source_exceptions import TaskError
+
+
+class ShortDescription:
+    '''Получение краткого описания (10 символов), Non data дескриптор'''
+    def __get__(self, obj, objtype=None):
+        if obj is None:
+            return self
+        full = obj.description
+        if len(full) > 10:
+            return full[:10]
+        return full
 
 class ReadOnlyInt:
     def __set_name__(self, owner, name):
@@ -80,6 +90,7 @@ class Task:
     priority = PriorityField()
     description = ReadOnlyString()
     status = StatusField()
+    short_desc = ShortDescription()
 
     def __init__(self, id: int, description: str, priority: int, status: str):
         self.id = id
